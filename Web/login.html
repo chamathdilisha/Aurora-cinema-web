@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Cinema - Login</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/auth.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background -->
+    <div class="auth-background"></div>
+    <div class="auth-overlay"></div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+    </a>
+
+    <!-- Login Container -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Header -->
+            <div class="auth-header">
+                <a href="index.html" class="navbar-brand">
+                    <div class="aurora-logo">
+                        <svg width="50" height="50" viewBox="0 0 100 100">
+                            <defs>
+                                <linearGradient id="aurora-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                    <stop offset="33%" style="stop-color:#00ccff;stop-opacity:1" />
+                                    <stop offset="66%" style="stop-color:#9966ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ff6bb3;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path class="aurora-waves" d="M15,70 Q25,20 50,30 Q75,40 85,15" stroke="url(#aurora-gradient)" stroke-width="4" fill="none">
+                                <animate attributeName="d" 
+                                    values="M15,70 Q25,20 50,30 Q75,40 85,15;M15,65 Q30,25 50,35 Q70,35 85,20;M15,70 Q25,20 50,30 Q75,40 85,15" 
+                                    dur="4s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="aurora-waves" d="M10,80 Q30,30 50,40 Q70,50 90,25" stroke="url(#aurora-gradient)" stroke-width="3" fill="none" opacity="0.7">
+                                <animate attributeName="d" 
+                                    values="M10,80 Q30,30 50,40 Q70,50 90,25;M10,75 Q35,35 50,45 Q65,45 90,30;M10,80 Q30,30 50,40 Q70,50 90,25" 
+                                    dur="3s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="aurora-waves" d="M20,85 Q40,35 50,45 Q60,55 80,30" stroke="url(#aurora-gradient)" stroke-width="2" fill="none" opacity="0.5">
+                                <animate attributeName="d" 
+                                    values="M20,85 Q40,35 50,45 Q60,55 80,30;M20,80 Q45,40 50,50 Q55,50 80,35;M20,85 Q40,35 50,45 Q60,55 80,30" 
+                                    dur="2s" repeatCount="indefinite"/>
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="brand-text">Aurora Cinema</span>
+                </a>
+                <h2 class="auth-title">Welcome</h2>
+                <p class="auth-subtitle">Sign in to your account to continue</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="position-relative">
+                        <input type="email" class="form-control" id="email" name="email" 
+                               placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="position-relative">
+                        <input type="password" class="form-control" id="password" name="password" 
+                               placeholder="Enter your password" required>
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                        Remember me for 30 days
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-auth" id="loginBtn">
+                    <span class="btn-text">Sign In</span>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>or continue with</span>
+            </div>
+
+            <!-- Social Login -->
+            <div class="social-login">
+                <a href="#" class="btn-social" onclick="socialLogin('google')">
+                    <i class="fab fa-google"></i>
+                    Google
+                </a>
+                <a href="#" class="btn-social" onclick="socialLogin('facebook')">
+                    <i class="fab fa-facebook-f"></i>
+                    Facebook
+                </a>
+            </div>
+
+            <!-- Links -->
+            <div class="auth-links">
+                <p class="mb-2">
+                    <a href="forgot-password.html">Forgot your password?</a>
+                </p>
+                <p class="mb-0">
+                    Don't have an account? 
+                    <a href="signup.html">Create one here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = loginBtn.querySelector('.btn-text');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Validate form
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Show loading state
+            loginBtn.disabled = true;
+            btnText.innerHTML = '<div class="spinner"></div> Signing In...';
+            
+            // Simulate login process
+            setTimeout(() => {
+                // Here you would typically make an API call to your backend
+                console.log('Login attempt:', { email, password });
+                
+                // Show success message
+                alert('Login successful! Redirecting to dashboard...');
+                
+                // Reset button state
+                loginBtn.disabled = false;
+                btnText.innerHTML = 'Sign In';
+                
+                // Show page transition and redirect
+                showPageTransition();
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 500);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

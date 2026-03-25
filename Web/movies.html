@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Cinema - Movies</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <style>
+        .movie-detail-card {
+            background: rgba(26, 26, 26, 0.9);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        .movie-poster-large {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        .movie-info h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--aurora-green), var(--aurora-blue), var(--aurora-purple));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .imdb-rating {
+            background: linear-gradient(45deg, #f5c518, #ffd700);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .cast-member {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .cast-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 0.5rem;
+            border: 2px solid var(--aurora-green);
+        }
+        .trailer-btn {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .trailer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+        .nav-tabs .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-tabs .nav-link.active {
+            color: var(--aurora-green) !important;
+            border-bottom: 3px solid var(--aurora-green) !important;
+            background: transparent !important;
+        }
+        .nav-tabs .nav-link:hover {
+            color: var(--aurora-green) !important;
+            border-color: transparent;
+        }
+        
+        /* Increase hero section height to show more picture */
+        .hero-section {
+            height: 75vh !important;
+            padding-top: 35vh !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="aurora-logo">
+                    <svg width="50" height="50" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="aurora-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                <stop offset="33%" style="stop-color:#00ccff;stop-opacity:1" />
+                                <stop offset="66%" style="stop-color:#9966ff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff6bb3;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path class="aurora-waves" d="M15,70 Q25,20 50,30 Q75,40 85,15" stroke="url(#aurora-gradient)" stroke-width="4" fill="none">
+                            <animate attributeName="d" values="M15,70 Q25,20 50,30 Q75,40 85,15;M15,65 Q30,25 50,35 Q70,35 85,20;M15,70 Q25,20 50,30 Q75,40 85,15" dur="4s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M10,80 Q30,30 50,40 Q70,50 90,25" stroke="url(#aurora-gradient)" stroke-width="3" fill="none" opacity="0.7">
+                            <animate attributeName="d" values="M10,80 Q30,30 50,40 Q70,50 90,25;M10,75 Q35,35 50,45 Q65,45 90,30;M10,80 Q30,30 50,40 Q70,50 90,25" dur="3s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M20,85 Q40,35 50,45 Q60,55 80,30" stroke="url(#aurora-gradient)" stroke-width="2" fill="none" opacity="0.5">
+                            <animate attributeName="d" values="M20,85 Q40,35 50,45 Q60,55 80,30;M20,80 Q45,40 50,50 Q55,50 80,35;M20,85 Q40,35 50,45 Q60,55 80,30" dur="2s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                Aurora Cinema
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="movies.html">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cinema.html">Cinema</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <!-- Floating Particles -->
+        <div class="particle" style="top: 20%; left: 10%; width: 6px; height: 6px;"></div>
+        <div class="particle" style="top: 60%; left: 80%; width: 8px; height: 8px;"></div>
+        <div class="particle" style="top: 30%; left: 70%; width: 4px; height: 4px;"></div>
+        
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Now Showing & Coming Soon</h1>
+                        <p class="hero-subtitle">Discover the latest blockbusters and upcoming releases</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movie Selection -->
+    <section class="movies-section">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Browse Our Collection</h2>
+            
+            <!-- Movie Tabs -->
+            <ul class="nav nav-tabs justify-content-center mb-5" id="movieTabs" style="border-bottom: 2px solid rgba(0, 255, 136, 0.2);">
+                <li class="nav-item">
+                    <button class="nav-link active" id="now-showing-tab" data-bs-toggle="tab" data-bs-target="#now-showing" style="color: var(--aurora-green); font-weight: 600; padding: 1rem 2rem; border: none; background: transparent;">Now Showing</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="coming-soon-tab" data-bs-toggle="tab" data-bs-target="#coming-soon" style="color: rgba(255, 255, 255, 0.7); font-weight: 600; padding: 1rem 2rem; border: none; background: transparent;">Coming Soon</button>
+                </li>
+            </ul>
+
+            <!-- Movie Grid -->
+            <div class="tab-content">
+                <!-- Now Showing -->
+                <div class="tab-pane fade show active" id="now-showing">
+                    <div class="row g-4">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="movie-card" onclick="showMovieDetails('avatar')">
+                                <div class="movie-poster">
+                                    <img src="https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg" alt="Avatar: The Way of Water">
+                                </div>
+                                <div class="movie-info">
+                                    <h3>Avatar: The Way of Water</h3>
+                                    <p>Sci-Fi, Adventure</p>
+                                    <div class="movie-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>8.1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="movie-card" onclick="showMovieDetails('topgun')">
+                                <div class="movie-poster">
+                                    <img src="https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg" alt="Top Gun: Maverick">
+                                </div>
+                                <div class="movie-info">
+                                    <h3>Top Gun: Maverick</h3>
+                                    <p>Action, Drama</p>
+                                    <div class="movie-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>8.3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="movie-card" onclick="showMovieDetails('blackpanther')">
+                                <div class="movie-poster">
+                                    <img src="https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg" alt="Black Panther: Wakanda Forever">
+                                </div>
+                                <div class="movie-info">
+                                    <h3>Black Panther: Wakanda Forever</h3>
+                                    <p>Action, Adventure</p>
+                                    <div class="movie-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>6.7</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="movie-card" onclick="showMovieDetails('spiderman')">
+                                <div class="movie-poster">
+                                    <img src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" alt="Spider-Man: No Way Home">
+                                </div>
+                                <div class="movie-info">
+                                    <h3>Spider-Man: No Way Home</h3>
+                                    <p>Action, Adventure</p>
+                                    <div class="movie-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>8.4</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon -->
+                <div class="tab-pane fade" id="coming-soon">
+                    <div class="row g-4">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="movie-card" onclick="showMovieDetails('guardians')">
+                                <div class="movie-poster">
+                                    <img src="https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg" alt="Guardians of the Galaxy Vol. 3" loading="lazy">
+                                </div>
+                                <div class="movie-info">
+                                    <h3>Guardians of the Galaxy Vol. 3</h3>
+                                    <p>Action, Adventure</p>
+                                    <div class="movie-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>8.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="movie-card" onclick="showMovieDetails('fastx')">
+                                <div class="movie-poster">
+                                    <img src="https://image.tmdb.org/t/p/w500/fiVW06jE7z9YnO4trhaMEdclSiC.jpg" alt="Fast X">
+                                </div>
+                                <div class="movie-info">
+                                    <h3>Fast X</h3>
+                                    <p>Action, Crime</p>
+                                    <div class="movie-rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>7.2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movie Details Modal -->
+    <div class="modal fade" id="movieDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="background: #1a1a1a; color: white; border: 1px solid rgba(0, 255, 136, 0.2);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(0, 255, 136, 0.2);">
+                    <h5 class="modal-title" id="movieTitle">Movie Title</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img id="moviePoster" src="" alt="Movie Poster" class="movie-poster-large">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="movie-info">
+                                <h1 id="movieTitleLarge"></h1>
+                                <div class="mb-3">
+                                    <span class="imdb-rating">
+                                        <i class="fas fa-star"></i> IMDB: <span id="imdbRating"></span>
+                                    </span>
+                                </div>
+                                <p id="movieDescription" class="mb-4"></p>
+                                <div class="mb-4">
+                                    <h4>Cast</h4>
+                                    <div class="row" id="castList">
+                                        <!-- Cast will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                                <button class="trailer-btn" onclick="openTrailer()">
+                                    <i class="fab fa-youtube me-2"></i>Watch Trailer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const movies = {
+            avatar: {
+                title: "Avatar: The Way of Water",
+                poster: "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+                description: "Set more than a decade after the events of the first film, Avatar: The Way of Water begins to tell the story of the Sully family, the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.",
+                imdb: "8.1",
+                trailer: "https://www.youtube.com/watch?v=d9MyW72ELq0",
+                cast: [
+                    {name: "Sam Worthington", role: "Jake Sully", photo: "https://image.tmdb.org/t/p/w200/9N2hQNqk7FzPckqgvHZQo6Q9vq.jpg"},
+                    {name: "Zoe Saldana", role: "Neytiri", photo: "https://image.tmdb.org/t/p/w200/6nqV2bqZP3Cu00Qjh4fsD3zkQ2Q.jpg"},
+                    {name: "Sigourney Weaver", role: "Kiri", photo: "https://image.tmdb.org/t/p/w200/4lGqYy6qL0w3y3y3y3y3y3y3y3y3y3y3y3y3y3y3y.jpg"}
+                ]
+            },
+            topgun: {
+                title: "Top Gun: Maverick",
+                poster: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
+                description: "After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOP GUN's elite graduates on a mission that demands the ultimate sacrifice from those chosen to fly it.",
+                imdb: "8.3",
+                trailer: "https://www.youtube.com/watch?v=qSqVVswa420",
+                cast: [
+                    {name: "Tom Cruise", role: "Maverick", photo: "https://image.tmdb.org/t/p/w200/3oWEuo0e8Nx8JvkqYCDec2iM6KQ.jpg"},
+                    {name: "Miles Teller", role: "Rooster", photo: "https://image.tmdb.org/t/p/w200/9N2hQNqk7FzPckqgvHZQo6Q9vq.jpg"},
+                    {name: "Jennifer Connelly", role: "Penny", photo: "https://image.tmdb.org/t/p/w200/6nqV2bqZP3Cu00Qjh4fsD3zkQ2Q.jpg"}
+                ]
+            },
+            blackpanther: {
+                title: "Black Panther: Wakanda Forever",
+                poster: "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+                description: "Queen Ramonda, Shuri, M'Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T'Challa's death.",
+                imdb: "6.7",
+                trailer: "https://www.youtube.com/watch?v=_Z3QKkl1WyM",
+                cast: [
+                    {name: "Letitia Wright", role: "Shuri", photo: "https://image.tmdb.org/t/p/w200/kqjL17yufvn9OVLyXYpvtyrFfak.jpg"},
+                    {name: "Angela Bassett", role: "Ramonda", photo: "https://image.tmdb.org/t/p/w200/3Jx7XQ1dxbNX7x5vZfF3J8x5x5x.jpg"},
+                    {name: "Winston Duke", role: "M'Baku", photo: "https://image.tmdb.org/t/p/w200/9N2hQNqk7FzPckqgvHZQo6Q9vq.jpg"}
+                ]
+            },
+            spiderman: {
+                title: "Spider-Man: No Way Home",
+                poster: "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+                description: "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear, forcing Peter to discover what it truly means to be Spider-Man.",
+                imdb: "8.4",
+                trailer: "https://www.youtube.com/watch?v=JfVOs4VSpmA",
+                cast: [
+                    {name: "Tom Holland", role: "Peter Parker", photo: "https://image.tmdb.org/t/p/w200/bBRlrpJm9XkNSg0YT5cax1qCqXf.jpg"},
+                    {name: "Zendaya", role: "MJ", photo: "https://image.tmdb.org/t/p/w200/jl2xJWpOw6W1fXjSdJTjR6x4x4x4.jpg"},
+                    {name: "Benedict Cumberbatch", role: "Doctor Strange", photo: "https://image.tmdb.org/t/p/w200/4mFHsHD8ZPL3z1YqFq8qFq8qFq8q.jpg"}
+                ]
+            },
+            guardians: {
+                title: "Guardians of the Galaxy Vol. 3",
+                poster: "https://m.media-amazon.com/images/M/MV5BMDgxOTdjMzYtZGQxMS00ZTAzLWI4Y2UtMTQzN2VlYjYyZWRiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg",
+                description: "Still reeling from the loss of Gamora, Peter Quill rallies his team to defend the universe and one of their own - a mission that could mean the end of the Guardians if not successful.",
+                imdb: "8.0",
+                trailer: "https://www.youtube.com/watch?v=u3V5KDHRQvk",
+                cast: [
+                    {name: "Chris Pratt", role: "Star-Lord", photo: "https://image.tmdb.org/t/p/w200/9N2hQNqk7FzPckqgvHZQo6Q9vq.jpg"},
+                    {name: "Zoe Saldana", role: "Gamora", photo: "https://image.tmdb.org/t/p/w200/6nqV2bqZP3Cu00Qjh4fsD3zkQ2Q.jpg"},
+                    {name: "Dave Bautista", role: "Drax", photo: "https://image.tmdb.org/t/p/w200/9N2hQNqk7FzPckqgvHZQo6Q9vq.jpg"}
+                ]
+            },
+            fastx: {
+                title: "Fast X",
+                poster: "https://image.tmdb.org/t/p/w500/fiVW06jE7z9YnO4trhaMEdclSiC.jpg",
+                description: "Over many missions and against impossible odds, Dom Toretto and his family have outsmarted, out-nerved and outdriven every foe in their path. Now, they confront the most lethal opponent they've ever faced.",
+                imdb: "7.2",
+                trailer: "https://www.youtube.com/watch?v=32RAq6JzY-w",
+                cast: [
+                    {name: "Vin Diesel", role: "Dom Toretto", photo: "https://image.tmdb.org/t/p/w200/3oWEuo0e8Nx8JvkqYCDec2iM6KQ.jpg"},
+                    {name: "Michelle Rodriguez", role: "Letty", photo: "https://image.tmdb.org/t/p/w200/6nqV2bqZP3Cu00Qjh4fsD3zkQ2Q.jpg"},
+                    {name: "Jason Momoa", role: "Dante", photo: "https://image.tmdb.org/t/p/w200/9N2hQNqk7FzPckqgvHZQo6Q9vq.jpg"}
+                ]
+            }
+        };
+
+        let currentMovie = null;
+
+        function showMovieDetails(movieId) {
+            currentMovie = movies[movieId];
+            if (!currentMovie) return;
+
+            document.getElementById('movieTitle').textContent = currentMovie.title;
+            document.getElementById('movieTitleLarge').textContent = currentMovie.title;
+            document.getElementById('moviePoster').src = currentMovie.poster;
+            document.getElementById('imdbRating').textContent = currentMovie.imdb;
+            document.getElementById('movieDescription').textContent = currentMovie.description;
+
+            // Populate cast
+            const castList = document.getElementById('castList');
+            castList.innerHTML = '';
+            currentMovie.cast.forEach(cast => {
+                castList.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="cast-member">
+    
+                            <h6>${cast.name}</h6>
+                            <small>${cast.role}</small>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const modal = new bootstrap.Modal(document.getElementById('movieDetailsModal'));
+            modal.show();
+        }
+
+        function openTrailer() {
+            if (currentMovie && currentMovie.trailer) {
+                window.open(currentMovie.trailer, '_blank');
+            }
+        }
+    </script>
+    
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+    
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

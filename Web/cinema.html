@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Cinema - Premium Cinema Experience</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --aurora-green: #00ff88;
+            --aurora-blue: #00ccff;
+            --aurora-purple: #9966ff;
+            --aurora-pink: #ff6bb3;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000000;
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-top: 50px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/cinema-hall.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        /* Navigation */
+        .navbar-custom {
+            background: rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            padding: 0.3rem 0;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
+            border-radius: 0;
+            margin: 1rem 2rem 0 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .navbar-custom.scrolled {
+            background: rgba(0, 0, 0, 0.6) !important;
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.25);
+            border-radius: 0;
+            margin: 0.5rem 2rem;
+        }
+
+        .home-btn {
+            background: #1a3d1a;
+            color: #00ff88;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-btn:hover {
+            background: #2a4d2a;
+            color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .cinema-hero {
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.8) 0%, 
+                rgba(0, 0, 0, 0.6) 50%, 
+                rgba(0, 0, 0, 0.8) 100%);
+            padding: 6rem 0 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cinema-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('images/cinema-hall.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .cinema-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--aurora-green), var(--aurora-blue), var(--aurora-purple));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .cinema-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        /* Cinema Hall Image */
+        .cinema-hall-section {
+            padding: 4rem 0;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .cinema-hall-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cinema-hall-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.9) 0%, 
+                rgba(20, 20, 30, 0.8) 50%, 
+                rgba(0, 0, 0, 0.9) 100%);
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, 
+                rgba(20, 20, 30, 0.9) 0%, 
+                rgba(30, 30, 40, 0.8) 50%, 
+                rgba(20, 20, 30, 0.9) 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #000000;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--aurora-green), var(--aurora-blue));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: linear-gradient(45deg, var(--aurora-green), var(--aurora-blue));
+            color: #000000;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, var(--aurora-blue), var(--aurora-purple));
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-custom {
+                margin: 0.5rem 1rem 0 1rem;
+                border-radius: 0;
+            }
+            
+            .navbar-custom.scrolled {
+                margin: 0.25rem 1rem;
+                border-radius: 0;
+            }
+            
+            .cinema-title {
+                font-size: 2.5rem;
+            }
+            
+            .cinema-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .cinema-hall-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-custom {
+                margin: 0.25rem 0.5rem 0 0.5rem;
+                border-radius: 0;
+            }
+            
+            .navbar-custom.scrolled {
+                margin: 0.125rem 0.5rem;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="aurora-logo">
+                    <svg width="50" height="50" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="aurora-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                <stop offset="33%" style="stop-color:#00ccff;stop-opacity:1" />
+                                <stop offset="66%" style="stop-color:#9966ff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff6bb3;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path class="aurora-waves" d="M15,70 Q25,20 50,30 Q75,40 85,15" stroke="url(#aurora-gradient)" stroke-width="4" fill="none">
+                            <animate attributeName="d" 
+                                values="M15,70 Q25,20 50,30 Q75,40 85,15;M15,65 Q30,25 50,35 Q70,35 85,20;M15,70 Q25,20 50,30 Q75,40 85,15" 
+                                dur="4s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M10,80 Q30,30 50,40 Q70,50 90,25" stroke="url(#aurora-gradient)" stroke-width="3" fill="none" opacity="0.7">
+                            <animate attributeName="d" 
+                                values="M10,80 Q30,30 50,40 Q70,50 90,25;M10,75 Q35,35 50,45 Q65,45 90,30;M10,80 Q30,30 50,40 Q70,50 90,25" 
+                                dur="3s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M20,85 Q40,35 50,45 Q60,55 80,30" stroke="url(#aurora-gradient)" stroke-width="2" fill="none" opacity="0.5">
+                            <animate attributeName="d" 
+                                values="M20,85 Q40,35 50,45 Q60,55 80,30;M20,80 Q45,40 50,50 Q55,50 80,35;M20,85 Q40,35 50,45 Q60,55 80,30" 
+                                dur="2s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                Aurora Cinema
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="home-btn" href="index.html#home">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="movies.html">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user-bookings.html">My Bookings</a>
+                    </li>
+                </ul>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-login" onclick="goToLogin()">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cinema Hero Section -->
+    <section class="cinema-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="cinema-title">Premium Cinema Experience</h1>
+                    <p class="cinema-subtitle">Luxury, Comfort, and Cutting-Edge Technology</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cinema Hall Image Section -->
+    <section class="cinema-hall-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <img src="images/cinema-hall.jpg" 
+                         alt="Luxury Cinema Hall" class="cinema-hall-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Premium Features</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-couch"></i>
+                        </div>
+                        <h3 class="feature-title">Luxury Seating</h3>
+                        <p class="feature-description">Premium recliner seats with memory foam cushioning and personal climate control for ultimate comfort.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h3 class="feature-title">Dolby Atmos</h3>
+                        <p class="feature-description">360-degree immersive surround sound that places you at the heart of the action with crystal-clear audio.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3 class="feature-title">4K Laser Projection</h3>
+                        <p class="feature-description">Ultra-high definition 4K laser projection with HDR technology for stunning visual clarity and vibrant colors.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Navigation functions
+        function goToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function goToSignup() {
+            window.location.href = 'signup.html';
+        }
+
+        // Smooth scrolling for back button
+        document.addEventListener('DOMContentLoaded', function() {
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Cinema - Experience Movies Like Never Before</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="aurora-logo">
+                    <svg width="50" height="50" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="aurora-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                <stop offset="33%" style="stop-color:#00ccff;stop-opacity:1" />
+                                <stop offset="66%" style="stop-color:#9966ff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff6bb3;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path class="aurora-waves" d="M15,70 Q25,20 50,30 Q75,40 85,15" stroke="url(#aurora-gradient)" stroke-width="4" fill="none">
+                            <animate attributeName="d" 
+                                values="M15,70 Q25,20 50,30 Q75,40 85,15;M15,65 Q30,25 50,35 Q70,35 85,20;M15,70 Q25,20 50,30 Q75,40 85,15" 
+                                dur="4s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M10,80 Q30,30 50,40 Q70,50 90,25" stroke="url(#aurora-gradient)" stroke-width="3" fill="none" opacity="0.7">
+                            <animate attributeName="d" 
+                                values="M10,80 Q30,30 50,40 Q70,50 90,25;M10,75 Q35,35 50,45 Q65,45 90,30;M10,80 Q30,30 50,40 Q70,50 90,25" 
+                                dur="3s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M20,85 Q40,35 50,45 Q60,55 80,30" stroke="url(#aurora-gradient)" stroke-width="2" fill="none" opacity="0.5">
+                            <animate attributeName="d" 
+                                values="M20,85 Q40,35 50,45 Q60,55 80,30;M20,80 Q45,40 50,50 Q55,50 80,35;M20,85 Q40,35 50,45 Q60,55 80,30" 
+                                dur="2s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                Aurora Cinema
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="movies.html">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cinema.html">Cinema</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                </ul>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-login" onclick="goToLogin()">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <!-- Floating Particles -->
+        <div class="particle" style="top: 20%; left: 10%; width: 6px; height: 6px;"></div>
+        <div class="particle" style="top: 60%; left: 80%; width: 8px; height: 8px;"></div>
+        <div class="particle" style="top: 30%; left: 70%; width: 4px; height: 4px;"></div>
+        
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Experience Cinema Like Never Before</h1>
+                        <p class="hero-subtitle">Immerse yourself in the magic of movies at Aurora Cinema</p>
+                        <button class="btn cta-button" onclick="scrollToMovies()">
+                            <i class="fas fa-ticket-alt me-2"></i>Book Your Experience
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section class="movies-section" id="movies">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Now Showing</h2>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="movie-card" data-movie="avatar">
+                        <div class="movie-poster">
+                            <img src="https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg" alt="Avatar: The Way of Water" loading="lazy">
+                            <div class="movie-overlay">
+                                <button class="btn overlay-btn" onclick="playTrailer('avatar')">
+                                    <i class="fas fa-play me-1"></i> Trailer
+                                </button>
+                                <button class="btn overlay-btn" onclick="goToSeatSelection('Avatar: The Way of Water')">
+                                    <i class="fas fa-ticket-alt me-1"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Avatar: The Way of Water</h3>
+                            <p class="movie-genre">Sci-Fi, Adventure, Action</p>
+                            <div class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                <span>8.1</span>
+                                <span class="ms-2 text-white">IMDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="movie-card" data-movie="topgun">
+                        <div class="movie-poster">
+                            <img src="https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg" alt="Top Gun: Maverick" loading="lazy">
+                            <div class="movie-overlay">
+                                <button class="btn overlay-btn" onclick="playTrailer('topgun')">
+                                    <i class="fas fa-play me-1"></i> Trailer
+                                </button>
+                                <button class="btn overlay-btn" onclick="goToSeatSelection('Top Gun: Maverick')">
+                                    <i class="fas fa-ticket-alt me-1"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Top Gun: Maverick</h3>
+                            <p class="movie-genre">Action, Drama, Adventure</p>
+                            <div class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                <span>8.3</span>
+                                <span class="ms-2 text-white">IMDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="movie-card" data-movie="blackpanther">
+                        <div class="movie-poster">
+                            <img src="https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg" alt="Black Panther: Wakanda Forever" loading="lazy">
+                            <div class="movie-overlay">
+                                <button class="btn overlay-btn" onclick="playTrailer('blackpanther')">
+                                    <i class="fas fa-play me-1"></i> Trailer
+                                </button>
+                                <button class="btn overlay-btn" onclick="goToSeatSelection('Black Panther: Wakanda Forever')">
+                                    <i class="fas fa-ticket-alt me-1"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Black Panther: Wakanda Forever</h3>
+                            <p class="movie-genre">Action, Adventure, Drama</p>
+                            <div class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                <span>6.7</span>
+                                <span class="ms-2 text-white">IMDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="movie-card" data-movie="spiderman">
+                        <div class="movie-poster">
+                            <img src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" alt="Spider-Man: No Way Home" loading="lazy">
+                            <div class="movie-overlay">
+                                <button class="btn overlay-btn" onclick="playTrailer('spiderman')">
+                                    <i class="fas fa-play me-1"></i> Trailer
+                                </button>
+                                <button class="btn overlay-btn" onclick="goToSeatSelection('Spider-Man: No Way Home')">
+                                    <i class="fas fa-ticket-alt me-1"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">Spider-Man: No Way Home</h3>
+                            <p class="movie-genre">Action, Adventure, Sci-Fi</p>
+                            <div class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                <span>8.4</span>
+                                <span class="ms-2 text-white">IMDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Why Choose Aurora Cinema?</h2>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-couch"></i>
+                        </div>
+                        <h3 class="feature-title">Luxury Seating</h3>
+                        <p class="feature-description">Premium recliner seats with memory foam cushioning and personal climate control for ultimate comfort.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h3 class="feature-title">Dolby Atmos</h3>
+                        <p class="feature-description">360-degree immersive surround sound that places you at the heart of the action with crystal-clear audio.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3 class="feature-title">4K Laser Projection</h3>
+                        <p class="feature-description">Ultra-high definition 4K laser projection with HDR technology for stunning visual clarity and vibrant colors.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <h3 class="feature-title">Premium Service</h3>
+                        <p class="feature-description">Gourmet snacks, craft beverages, and in-seat dining service to enhance your movie experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="h2 text-aurora-green mb-2">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="display-4 text-aurora-green mb-0" data-count="50000">0</h3>
+                    <p style="color: #808080;">Happy Customers</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="h2 text-aurora-blue mb-2">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="display-4 text-aurora-blue mb-0" data-count="500">0</h3>
+                    <p style="color: #808080;">Movies Screened</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="h2 text-aurora-purple mb-2">
+                        <i class="fas fa-chair"></i>
+                    </div>
+                    <h3 class="display-4 text-aurora-purple mb-0" data-count="8">0</h3>
+                    <p style="color: #808080;">Premium Screens</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="h2 text-aurora-pink mb-2">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="display-4 text-aurora-pink mb-0" data-count="15">0</h3>
+                    <p style="color: #808080;">Years Of Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-section">
+                        <div class="navbar-brand mb-3">
+                            <div class="aurora-logo">
+                                <svg width="40" height="40" viewBox="0 0 100 100">
+                                    <defs>
+                                        <linearGradient id="aurora-footer" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                            <stop offset="33%" style="stop-color:#00ccff;stop-opacity:1" />
+                                            <stop offset="66%" style="stop-color:#9966ff;stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#ff6bb3;stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M15,70 Q25,20 50,30 Q75,40 85,15" stroke="url(#aurora-footer)" stroke-width="3" fill="none"/>
+                                    <path d="M10,80 Q30,30 50,40 Q70,50 90,25" stroke="url(#aurora-footer)" stroke-width="2" fill="none" opacity="0.7"/>
+                                </svg>
+                            </div>
+                            Aurora Cinema
+                        </div>
+                        <p style="color: #808080; margin-bottom: 1rem;">Experience the magic of movies with cutting-edge technology and premium comfort at Aurora Cinema.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-section">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="movies.html">Movies</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#">Gift Cards</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="footer-section">
+                        <h5>Contact Info</h5>
+                        <div class="contact-info">
+                            <p class="mb-2">
+                                <i class="fas fa-map-marker-alt me-2 text-aurora-green"></i>
+                                123 Cinema Boulevard<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colombo 07, Sri Lanka
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-phone me-2 text-aurora-green"></i>
+                                +94 11 234 5678
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-envelope me-2 text-aurora-green"></i>
+                                info@auroracinema.lk
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-clock me-2 text-aurora-green"></i>
+                                Open Daily: 10:00 AM - 12:00 AM
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0">&copy; <span id="currentYear"></span> Aurora Cinema. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="me-3 text-decoration-none" style="color: #808080;">Privacy Policy</a>
+                        <a href="#" class="me-3 text-decoration-none" style="color: #808080;">Terms of Service</a>
+                        <a href="#" class="text-decoration-none" style="color: #808080;">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    
+    <script>
+        function goToSeatSelection(movieTitle) {
+            console.log('Book Now clicked for:', movieTitle);
+            
+            // Movie durations mapping
+            const movieDurations = {
+                'Avatar: The Way of Water': '3h 12m',
+                'Top Gun: Maverick': '2h 11m',
+                'Black Panther: Wakanda Forever': '2h 41m',
+                'Spider-Man: No Way Home': '2h 28m'
+            };
+            
+            // Store movie information in localStorage for seat selection page
+            const bookingInfo = {
+                movie: movieTitle,
+                duration: movieDurations[movieTitle] || '2h 30m',
+                date: new Date().toISOString().split('T')[0],
+                time: '08:30 PM',
+                screen: '1',
+                type: 'IMAX 3D'
+            };
+            
+            console.log('Storing booking info:', bookingInfo);
+            localStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
+            
+            // Verify storage
+            const stored = localStorage.getItem('bookingInfo');
+            console.log('Stored data:', stored);
+            
+            // Redirect to seat selection page
+            window.location.href = 'seatselection.html';
+        }
+    </script>
+</body>
+</html>

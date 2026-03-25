@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Cinema - My Bookings</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+    
+    <style>
+        .bookings-container {
+            padding: 6rem 0 4rem;
+            min-height: 100vh;
+        }
+        
+        .booking-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            border-color: var(--aurora-green);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .booking-id {
+            color: var(--aurora-blue);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .booking-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-confirmed {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--aurora-green);
+            border: 1px solid var(--aurora-green);
+        }
+        
+        .status-cancelled {
+            background: rgba(229, 62, 62, 0.1);
+            color: #e53e3e;
+            border: 1px solid #e53e3e;
+        }
+        
+        .status-completed {
+            background: rgba(0, 204, 255, 0.1);
+            color: var(--aurora-blue);
+            border: 1px solid var(--aurora-blue);
+        }
+        
+        .movie-info {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .movie-poster {
+            width: 120px;
+            height: 180px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .movie-details h4 {
+            color: var(--aurora-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+        }
+        
+        .detail-item i {
+            color: var(--aurora-blue);
+            width: 20px;
+        }
+        
+        .booking-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-cancel {
+            background: rgba(229, 62, 62, 0.1);
+            color: #e53e3e;
+            border: 1px solid #e53e3e;
+        }
+        
+        .btn-cancel:hover {
+            background: #e53e3e;
+            color: white;
+        }
+        
+        .btn-download {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--aurora-green);
+            border: 1px solid var(--aurora-green);
+        }
+        
+        .btn-download:hover {
+            background: var(--aurora-green);
+            color: #000;
+        }
+        
+        .btn-review {
+            background: rgba(153, 102, 255, 0.1);
+            color: var(--aurora-purple);
+            border: 1px solid var(--aurora-purple);
+        }
+        
+        .btn-review:hover {
+            background: var(--aurora-purple);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--aurora-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab.active {
+            background: var(--aurora-green);
+            color: #000;
+            border-color: var(--aurora-green);
+        }
+        
+        .filter-tab:hover:not(.active) {
+            border-color: var(--aurora-green);
+            color: var(--aurora-green);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="aurora-logo">
+                    <svg width="50" height="50" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="aurora-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+                                <stop offset="33%" style="stop-color:#00ccff;stop-opacity:1" />
+                                <stop offset="66%" style="stop-color:#9966ff;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff6bb3;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path class="aurora-waves" d="M15,70 Q25,20 50,30 Q75,40 85,15" stroke="url(#aurora-gradient)" stroke-width="4" fill="none">
+                            <animate attributeName="d" 
+                                values="M15,70 Q25,20 50,30 Q75,40 85,15;M15,65 Q30,25 50,35 Q70,35 85,20;M15,70 Q25,20 50,30 Q75,40 85,15" 
+                                dur="4s" repeatCount="indefinite"/>
+                        </path>
+                        <path class="aurora-waves" d="M10,80 Q30,30 50,40 Q70,50 90,25" stroke="url(#aurora-gradient)" stroke-width="3" fill="none" opacity="0.7">
+                            <animate attributeName="d" 
+                                values="M10,80 Q30,30 50,40 Q70,50 90,25;M10,75 Q35,35 50,45 Q65,45 90,30;M10,80 Q30,30 50,40 Q70,50 90,25" 
+                                dur="3s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                Aurora Cinema
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="movies.html">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="user-bookings.html">My Bookings</a>
+                    </li>
+                </ul>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-login" onclick="goToLogin()">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bookings Container -->
+    <div class="bookings-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="section-title text-center mb-4">My Bookings</h1>
+                    
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" onclick="filterBookings('all')">
+                            <i class="fas fa-list me-2"></i>All Bookings
+                        </div>
+                        <div class="filter-tab" onclick="filterBookings('confirmed')">
+                            <i class="fas fa-check-circle me-2"></i>Confirmed
+                        </div>
+                        <div class="filter-tab" onclick="filterBookings('completed')">
+                            <i class="fas fa-film me-2"></i>Completed
+                        </div>
+                        <div class="filter-tab" onclick="filterBookings('cancelled')">
+                            <i class="fas fa-times-circle me-2"></i>Cancelled
+                        </div>
+                    </div>
+                    
+                    <!-- Bookings List -->
+                    <div id="bookingsList">
+                        <!-- Sample bookings will be populated by JavaScript -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="empty-state" style="display: none;">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h3>No Bookings Found</h3>
+                        <p>You haven't made any bookings yet. Start exploring our amazing movies!</p>
+                        <a href="movies.html" class="btn btn-auth mt-3">
+                            <i class="fas fa-film me-2"></i>Browse Movies
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Sample bookings data
+        const sampleBookings = [
+            {
+                id: 'BK001',
+                movie: 'Avatar: The Way of Water',
+                poster: 'https://image.tmdb.org/t/p/w300/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg',
+                date: '2024-01-20',
+                time: '08:30 PM',
+                screen: 'Screen 1 - IMAX 3D',
+                seats: ['A5', 'A6'],
+                total: 44,
+                status: 'confirmed',
+                bookingDate: '2024-01-15'
+            },
+            {
+                id: 'BK002',
+                movie: 'Top Gun: Maverick',
+                poster: 'https://image.tmdb.org/t/p/w300/62HCnUTziyWcpDaBO2i1DX17ljH.jpg',
+                date: '2024-01-18',
+                time: '06:00 PM',
+                screen: 'Screen 2 - Dolby Atmos',
+                seats: ['C8', 'C9'],
+                total: 26,
+                status: 'completed',
+                bookingDate: '2024-01-10'
+            },
+            {
+                id: 'BK003',
+                movie: 'Spider-Man: No Way Home',
+                poster: 'https://image.tmdb.org/t/p/w300/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg',
+                date: '2024-01-12',
+                time: '02:30 PM',
+                screen: 'Screen 3 - Premium',
+                seats: ['D12'],
+                total: 14,
+                status: 'cancelled',
+                bookingDate: '2024-01-08'
+            }
+        ];
+        
+        let currentFilter = 'all';
+        
+        // Filter bookings
+        function filterBookings(status) {
+            currentFilter = status;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter and display bookings
+            displayBookings();
+        }
+        
+        // Display bookings
+        function displayBookings() {
+            const bookingsList = document.getElementById('bookingsList');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filteredBookings = sampleBookings;
+            
+            if (currentFilter !== 'all') {
+                filteredBookings = sampleBookings.filter(booking => booking.status === currentFilter);
+            }
+            
+            if (filteredBookings.length === 0) {
+                bookingsList.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            bookingsList.innerHTML = filteredBookings.map(booking => `
+                <div class="booking-card" data-status="${booking.status}">
+                    <div class="booking-header">
+                        <div class="booking-id">Booking #${booking.id}</div>
+                        <div class="booking-status status-${booking.status}">
+                            ${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                        </div>
+                    </div>
+                    
+                    <div class="movie-info">
+                        <img src="${booking.poster}" alt="${booking.movie}" class="movie-poster">
+                        <div class="movie-details">
+                            <h4>${booking.movie}</h4>
+                            <div class="booking-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${new Date(booking.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${booking.time}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-film"></i>
+                                    <span>${booking.screen}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-chair"></i>
+                                    <span>Seats: ${booking.seats.join(', ')}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>Total: $${booking.total}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>Booked: ${new Date(booking.bookingDate).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-actions">
+                        ${booking.status === 'confirmed' ? `
+                            <button class="btn btn-action btn-cancel" onclick="cancelBooking('${booking.id}')">
+                                <i class="fas fa-times me-1"></i>Cancel
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-action btn-download" onclick="downloadTicket('${booking.id}')">
+                            <i class="fas fa-download me-1"></i>Download Ticket
+                        </button>
+                        ${booking.status === 'completed' ? `
+                            <button class="btn btn-action btn-review" onclick="writeReview('${booking.movie}')">
+                                <i class="fas fa-star me-1"></i>Write Review
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Cancel booking
+        function cancelBooking(bookingId) {
+            if (confirm('Are you sure you want to cancel this booking?')) {
+                // Find and update booking status
+                const booking = sampleBookings.find(b => b.id === bookingId);
+                if (booking) {
+                    booking.status = 'cancelled';
+                    displayBookings();
+                    alert('Booking cancelled successfully!');
+                }
+            }
+        }
+        
+        // Download ticket
+        function downloadTicket(bookingId) {
+            alert(`Downloading ticket for booking ${bookingId}...`);
+            // In a real application, this would generate and download a PDF ticket
+        }
+        
+        // Write review
+        function writeReview(movieTitle) {
+            alert(`Writing review for ${movieTitle}...`);
+            // In a real application, this would open a review form
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayBookings();
+        });
+    </script>
+</body>
+</html>
